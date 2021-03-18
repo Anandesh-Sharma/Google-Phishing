@@ -15,8 +15,6 @@ cryptography==3.4.6
 decorator==4.4.2
 defusedxml==0.6.0
 entrypoints==0.3
-Flask==1.1.2
-Flask-PyMongo==2.3.0
 h11==0.12.0
 h2==4.0.0
 hpack==4.0.0
@@ -83,7 +81,6 @@ traitlets==5.0.5
 tzlocal==2.1
 undetected-chromedriver==2.1.2
 urllib3==1.26.3
-uWSGI==2.0.19.1
 wcwidth==0.2.5
 webencodings==0.5.1
 Werkzeug==1.0.1
