@@ -1,0 +1,9 @@
+username = "customer-qneohjaonu"
+password = "QNEOHJAONU"
+add_message = "This website is a phishing website, kindly take actions against it. Thank you!"
+name = 'Louis Williams'
+email = 'thelouiswills4@gmail.com'
+subject = 'This websites are phishing and strict actions must be taken!!'
+telegram_token = "1622024276:AAESACqCHgsSiWuHq4ESkW5LadIFzWDACw0"
+mongo_username = "root"
+mongo_password = "Rock0004%40"  # should be in url encoded form
