@@ -16,6 +16,8 @@ class CloudFlareReport:
         self.URL = 'https://www.cloudflare.com/abuse/form'
         self.copt = webdriver.ChromeOptions()
         self.copt.headless = True
+        self.copt.add_argument('--no-sandbox')
+        self.copt.add_argument('--disable-dev-shm-usage')
         self.browser = webdriver.Chrome(options=self.copt)
         self.browser.get(self.URL)
         self.xpathDropDown = '/html/body/div[1]/div[2]/div[3]/div[2]/div/div[2]/div/div/div[1]'
