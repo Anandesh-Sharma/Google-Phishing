@@ -18,11 +18,10 @@ def get_token(sitekey, url):
 
 
 def get_a_proxy():
-    entry = f"http://{username}:{password}@pr.oxylabs.io:7777"
+    entry = f"http://{username}:{password}@pr.oxylabs.io:10000"
     return {
         'http': entry,
-        'https': entry,
-        'no_proxy': 'localhost,127.0.0.1'
+        'https': entry
     }
 
 

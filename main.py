@@ -95,43 +95,41 @@ def search_term(term):
 def report_master():
     links_ids = client['master']['links'].find()
     reporting_task = []
-    for i in links_ids:
-        if 'reporting_links' in i:
-            for x in i['reporting_links']:
-                reporting_task.append(x)
+    if links_ids:
+        for i in links_ids:
+            if 'reporting_links' in i:
+                for x in i['reporting_links']:
+                    reporting_task.append(x)
 
-    google_data = []
-    links = [i['link'] for i in reporting_task]
-    ids = [i['report_id'] for i in reporting_task]
-    for i in links_ids:
-        google_data.append((urllib.parse.quote_plus(i['link']), urllib.parse.quote_plus(add_message)))
-    """REPORT TO GOOGLE WEBSITES"""
-    import time
+        google_data = []
+        links = [i['link'] for i in reporting_task]
+        ids = [i['report_id'] for i in reporting_task]
+        for i in links_ids:
+            google_data.append((urllib.parse.quote_plus(i['link']), urllib.parse.quote_plus(add_message)))
+        """REPORT TO GOOGLE WEBSITES"""
+        import time
 
-    t = time.time()
-    with ThreadPoolExecutor() as executor:
-        executor.map(google_reporting_links, links)
+        t = time.time()
+        with ThreadPoolExecutor() as executor:
+            executor.map(google_reporting_links, links)
 
-    """REPORT TO CLOUDFLARE"""
-    cloudflare_links = get_cloudflare_links(links)
-    if cloudflare_links:
-        print(CloudFlareReport(reporting_url=cloudflare_links,
-                               logs=add_message,
-                               name=name,
-                               email=email).formSubmit())
+        """REPORT TO CLOUDFLARE"""
+        cloudflare_links = get_cloudflare_links(links)
+        if cloudflare_links:
+            print(CloudFlareReport(reporting_url=cloudflare_links,
+                                   logs=add_message,
+                                   name=name,
+                                   email=email).formSubmit())
 
-    """REPORT NAMECHEAP"""
-    print(namecheap(name=name,
-                    email=email,
-                    reporting_url=links,
-                    reporting_websites=links,
-                    target_websites=links,
-                    ticket_subject=subject,
-                    ticket_message=add_message))
-    """REPORT GOOGLE IDS"""
-    google_report_ids(ids=ids)
-    print(f"time took : {time.time() - t}")
+        """REPORT NAMECHEAP"""
+        print(namecheap(name=name,
+                        email=email,
+                        reporting_url=links,
+                        reporting_websites=links,
+                        target_websites=links,
+                        ticket_subject=subject,
+                        ticket_message=add_message))
+        """REPORT GOOGLE IDS"""
+        google_report_ids(ids=ids)
+        print(f"time took : {time.time() - t}")
 
-
-while True:
-    report_master()

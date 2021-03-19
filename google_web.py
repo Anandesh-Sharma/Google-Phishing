@@ -15,7 +15,7 @@ def google_report_1(plink, sitekey="6LdCiQETAAAAADLZgnQbEQ8zAGa1eL7YA7TtN4N1",
     token = get_token(sitekey=sitekey, url=url)
 
     callable_url = f"https://safebrowsing.google.com/safebrowsing/report_badware/Captcha?id=&tpl=&hl=&url={plink}&g-recaptcha-response={token}&dq={add_message}&submit=Submit+Report"
-    response = requests.get(url=callable_url, proxies=get_a_proxy())
+    response = requests.get(url=callable_url, proxies=get_a_proxy(), timeout=200)
     if 'Thank you!' in BeautifulSoup(response.text, features='html.parser').find('title').text:
         return {'status': True, 'google': 'badware', 'message': "Success", 'reporting_link': plink}
     else:
@@ -34,7 +34,7 @@ def google_report_2(plink, sitekey="6LdCiQETAAAAADLZgnQbEQ8zAGa1eL7YA7TtN4N1",
     token = get_token(sitekey=sitekey, url=url)
 
     callable_url = f"https://safebrowsing.google.com/safebrowsing/report_general/Captcha?url={plink}&g-recaptcha-response={token}&category=falseneg&dq={add_message}&submit=Submit+Report"
-    response = requests.get(url=callable_url, proxies=get_a_proxy())
+    response = requests.get(url=callable_url, proxies=get_a_proxy(), timeout=200)
     if 'Thank you!' in BeautifulSoup(response.text, features='html.parser').find('title').text:
         return {'status': True, 'google': 'general', 'message': "Success", 'reporting_link': plink}
     else:
@@ -53,7 +53,7 @@ def google_report_3(plink, sitekey="6LdCiQETAAAAADLZgnQbEQ8zAGa1eL7YA7TtN4N1",
     token = get_token(sitekey=sitekey, url=url)
 
     callable_url = f"https://safebrowsing.google.com/safebrowsing/report_phish/Captcha?url={plink}&g-recaptcha-response={token}&dq={add_message}&submit=Submit+Report"
-    response = requests.get(url=callable_url, proxies=get_a_proxy())
+    response = requests.get(url=callable_url, proxies=get_a_proxy(), timeout=200)
     if 'Thank you!' in BeautifulSoup(response.text, features='html.parser').find('title').text:
         return {'status': True, 'google': 'phishing', 'message': "Success", 'reporting_link': plink}
     else:
