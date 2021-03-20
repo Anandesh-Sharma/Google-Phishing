@@ -1,6 +1,5 @@
-import time
 from concurrent.futures import ThreadPoolExecutor
-from selenium import webdriver
+from seleniumwire import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import threading
@@ -10,7 +9,7 @@ from google_web import google_report_1, google_report_2, google_report_3
 from cloudflare import CloudFlareReport
 from namecheap import namecheap
 from report_ids import request
-from helpers import get_cloudflare_links
+from helpers import get_cloudflare_links, get_a_proxy
 import pymongo
 
 client = pymongo.MongoClient('mongodb://{}:{}@localhost:27017'.format(mongo_username, mongo_password))
@@ -65,12 +64,15 @@ def main():
     mobile_emulation = {
         "deviceMetrics": {"width": 360, "height": 640, "pixelRatio": 3.0},
         "userAgent": "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19"}
+    options = {
+        'proxy': get_a_proxy(cc='US')
+    }
     chrome_options = Options()
     chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(seleniumwire_options=options, options=chrome_options)
     return driver
 
 
@@ -97,12 +99,11 @@ def search_term(term):
 def report_master():
     links_ids = client['master']['links'].find()
     reporting_task = []
-    if links_ids:
-        for i in links_ids:
-            if 'reporting_links' in i:
-                for x in i['reporting_links']:
-                    reporting_task.append(x)
-
+    for i in links_ids:
+        if 'reporting_links' in i:
+            for x in i['reporting_links']:
+                reporting_task.append(x)
+    if len(reporting_task) != 0:
         google_data = []
         links = [i['link'] for i in reporting_task]
         ids = [i['report_id'] for i in reporting_task]

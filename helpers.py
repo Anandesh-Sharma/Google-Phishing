@@ -17,8 +17,11 @@ def get_token(sitekey, url):
     return TOKEN
 
 
-def get_a_proxy():
-    entry = f"http://{username}:{password}@pr.oxylabs.io:10000"
+def get_a_proxy(cc=None):
+    if cc:
+        entry = f"http://{username}-cc-{cc}:{password}@pr.oxylabs.io:7777"
+    else:
+        entry = f"http://{username}:{password}@pr.oxylabs.io:7777"
     return {
         'http': entry,
         'https': entry
