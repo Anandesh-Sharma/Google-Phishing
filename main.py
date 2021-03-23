@@ -77,23 +77,25 @@ def main():
 
 
 def search_term(term):
-    """GET DRIVER INITIATED"""
-    browser = main()
+    try:
+        """GET DRIVER INITIATED"""
+        browser = main()
 
-    """INPUT DATA"""
-    search_term = term
+        """INPUT DATA"""
+        search_term = term
 
-    """GET GOOGLE SEARCH DONE"""
-    browser.get('https://google.com/')
-    search_elem = browser.find_element_by_xpath("//input[@type='search']")
-    search_elem.send_keys(search_term)
-    search_elem.send_keys(Keys.ENTER)
+        """GET GOOGLE SEARCH DONE"""
+        browser.get('https://google.com/')
+        search_elem = browser.find_element_by_xpath("//input[@type='search']")
+        search_elem.send_keys(search_term)
+        search_elem.send_keys(Keys.ENTER)
 
-    """GET AD LINKS FROM THE SEARCH"""
-    links_ids = get_ads_from_search(browser=browser)
-
-    browser.close()
-    return links_ids
+        """GET AD LINKS FROM THE SEARCH"""
+        links_ids = get_ads_from_search(browser=browser)
+        browser.close()
+        return {'status': True, 'links_ids': links_ids, 'message': 'Success'}
+    except Exception as e:
+        return {'status': False, 'links_ids': [], 'message': str(e)}
 
 
 def report_master():
@@ -135,4 +137,3 @@ def report_master():
         """REPORT GOOGLE IDS"""
         google_report_ids(ids=ids)
         print(f"time took : {time.time() - t}")
-

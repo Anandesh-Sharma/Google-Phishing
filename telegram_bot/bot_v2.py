@@ -165,7 +165,14 @@ def search_keyword(message):
     all_links = []
     ev_links = []
     keyword = message.text
-    x = search_term(message.text)
+    while True:
+        result = search_term(message.text)
+        if result['status']:
+            x = result['links_ids']
+            break
+        else:
+            print("Retrying to search")
+
     ev_links = x
     print(message.text)
     links = [i['link'] for i in x]
